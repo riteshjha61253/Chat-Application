@@ -1,7 +1,7 @@
 import React from 'react'
 import './User.css'
 import Left from './Left';
-import User from './user';
+import User from './User';
 import useGetAllUsers from '../../context/useGetAllUsers';
 
 function Users() {
