@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/user.route.js";
 import dotenv from "dotenv";
 import cors from "cors"
+import path from "path"
 import cookieParser from "cookie-parser";
 import messageRoute from "./routes/message.route.js";
 import { app, server } from "./socketIo/server.js";
@@ -18,6 +19,15 @@ app.use(cors({
   credentials: true}));
 app.use("/user", userRoute);
 app.use("/user/message", messageRoute);
+// -------deployement----
+if (process.env.NODE_ENV === 'production') {
+  const dirPath = path.resolve();
+  app.use(express.static(path.join(dirPath, "Frontend", "dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(dirPath, "Frontend", "dist", "index.html"));
+  });
+}
 
 
 try {
