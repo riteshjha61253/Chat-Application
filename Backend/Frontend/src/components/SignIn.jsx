@@ -27,7 +27,7 @@ export default function SignIn() {
     };
 
     // POST API call
-    fetch("http://localhost:3000/user/signIn", {
+    fetch("https://chat-application-j0m9.onrender.com/user/signIn", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
