@@ -1,10 +1,10 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
-import Left from "./home/left/Left";
-import Right from "./home/right/Right";
+import Left from "../src/home/left/Left.jsx";
+import Right from "../src/home/right/Right.jsx";
 import Search from "./home/left/Search";
-import SignUp from "./components/SignUp";
-import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp.jsx";
+import SignIn from "./components/SignIn.jsx";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./context/AuthProvider";
 
@@ -21,7 +21,7 @@ function App() {
           path="/"
           element={
             authUser ? (
-              <div className="flex h-screen">
+              <div className="flex h-screen bg-slate-900">
                 <Left />
                 <Right />
               </div>

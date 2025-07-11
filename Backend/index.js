@@ -14,10 +14,25 @@ const URI = process.env.MONGODB_URL;
 
 app.use(express.json());
 app.use(cookieParser());
+
+// allow both deployed and local frontend
+const allowedOrigins = [
+  "http://localhost:5173",                     // for local frontend
+  "https://chat-application-j0m9.onrender.com" // for deployed frontend
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL : "http://localhost:5173",
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
+
 app.use("/user", userRoute);
 app.use("/user/message", messageRoute);
 

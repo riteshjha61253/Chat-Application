@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useConversation from "../zutstand/userConveration";
+import BASE_URL from "../config";
 
 function useGetMessage() {
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ function useGetMessage() {
         try {
           const token = localStorage.getItem("token"); // or from context/state
           const res = await fetch(
-            `https://chat-application-j0m9.onrender.com/user/message/get/${selectedConversation._id}`,
+            `${BASE_URL}/user/message/get/${selectedConversation._id}`,
             {
               method: "GET",
               headers: {

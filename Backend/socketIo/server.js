@@ -5,8 +5,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-application-j0m9.onrender.com",
-    methods: ["GET", "POST"],
+    origin: [
+      "http://localhost:5173",
+      "https://chat-application-j0m9.onrender.com"
+    ],
+    credentials: true
   },
 });
 export const getReceiverSocketId=(receiverId)=>{

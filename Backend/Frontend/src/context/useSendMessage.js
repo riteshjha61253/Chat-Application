@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useConversation from "../zutstand/userConveration";
 import { useAuth } from "./AuthProvider";
+import BASE_URL from "../config";
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ const useSendMessage = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://chat-application-j0m9.onrender.com/user/message/send/${selectedConversation._id}`,
+        `${BASE_URL}/user/message/send/${selectedConversation._id}`,
         {
           method: "POST",
           headers: {

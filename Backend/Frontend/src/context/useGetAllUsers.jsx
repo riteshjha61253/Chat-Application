@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import BASE_URL from "../config";
 
 function useGetAllUsers() {
   const [allUsers, setAllUsers] = useState([]);
@@ -10,7 +11,7 @@ function useGetAllUsers() {
       setLoading(true);
       try {
         const token = Cookies.get("jwt");
-        const response = await fetch("https://chat-application-j0m9.onrender.com/user/allUsers", {
+        const response = await fetch(`${BASE_URL}/user/allUsers`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

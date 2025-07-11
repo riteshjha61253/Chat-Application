@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import { Link } from "react-router-dom";
+import BASE_URL from "../config";
 
 export default function SignUp() {
   const [authUser, setAuthUser] = useAuth();
@@ -36,7 +37,7 @@ export default function SignUp() {
     };
 
     // POST API call
-    fetch("https://chat-application-j0m9.onrender.com/user/signUp", {
+    fetch(`${BASE_URL}/user/signUp`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

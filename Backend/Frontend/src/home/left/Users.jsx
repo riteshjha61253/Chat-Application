@@ -1,23 +1,43 @@
-import React from 'react'
-import './User.css'
-import Left from './Left';
-import User from './User';
-import useGetAllUsers from '../../context/useGetAllUsers';
+import User from "./User"
+import useGetAllUsers from "../../context/useGetAllUsers"
 
 function Users() {
-  const[allUsers,loading]=useGetAllUsers();
-  console.log("This user inside user",allUsers);
-  return (
-    <div>
-        <h1 className="px-8 py-2 text-white text-2xl font-bold">Messages</h1>
-        <div className=' py-2 flex-1 overflow-y-auto' style={{maxHeight:"calc(84vh-10vh)"}}>
-          {allUsers.map((user,index)=>(
-            <User key={index} user={user}/> 
+  const [allUsers, loading] = useGetAllUsers()
+
+  if (loading) {
+    return (
+      <div className="p-2">
+        <div className="space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="flex items-center gap-3 p-3 rounded-lg animate-pulse">
+              <div className="w-12 h-12 bg-slate-700 rounded-full" />
+              <div className="flex-1">
+                <div className="h-4 bg-slate-700 rounded mb-2" />
+                <div className="h-3 bg-slate-700 rounded w-2/3" />
+              </div>
+            </div>
           ))}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex-1 overflow-y-auto p-2">
+        <div className="space-y-1">
+          {allUsers.map((user, index) => (
+            <User key={user._id || index} user={user} />
+          ))}
+        </div>
+        {allUsers.length === 0 && (
+          <div className="text-center py-8">
+            <p className="text-slate-400">No users found</p>
           </div>
-      
+        )}
+      </div>
     </div>
   )
 }
 
-export default Users;
+export default Users

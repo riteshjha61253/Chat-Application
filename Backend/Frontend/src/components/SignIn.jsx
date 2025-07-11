@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import BASE_URL from "../config.js";
 
 export default function SignIn() {
   const [authUser, setAuthUser] = useAuth();
@@ -27,14 +28,13 @@ export default function SignIn() {
     };
 
     // POST API call
-    fetch("https://chat-application-j0m9.onrender.com/user/signIn", {
+    fetch(`${BASE_URL}/user/signIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify(userInfo),
-      
     })
       .then((res) => {
         if (!res.ok) {
@@ -51,9 +51,9 @@ export default function SignIn() {
           email: "",
           password: "",
         });
-        console.log("Real",data);
-        console.log("Real2",data.user);
-        
+        console.log("Real", data);
+        console.log("Real2", data.user);
+
         localStorage.setItem("RealChat", data.user);
         // console.log("this is data ",);
       })
