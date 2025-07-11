@@ -10,7 +10,7 @@ function useGetAllUsers() {
       setLoading(true);
       try {
         const token = Cookies.get("jwt");
-        const response = await fetch("http://localhost:3000/user/allUsers", {
+        const response = await fetch("https://chat-application-j0m9.onrender.com/user/allUsers", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,

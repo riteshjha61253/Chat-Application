@@ -13,7 +13,7 @@ function useGetMessage() {
         try {
           const token = localStorage.getItem("token"); // or from context/state
           const res = await fetch(
-            `http://localhost:3000/user/message/get/${selectedConversation._id}`,
+            `https://chat-application-j0m9.onrender.com/user/message/get/${selectedConversation._id}`,
             {
               method: "GET",
               headers: {

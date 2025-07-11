@@ -13,7 +13,7 @@ const useSendMessage = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:3000/user/message/send/${selectedConversation._id}`,
+        `https://chat-application-j0m9.onrender.com/user/message/send/${selectedConversation._id}`,
         {
           method: "POST",
           headers: {
