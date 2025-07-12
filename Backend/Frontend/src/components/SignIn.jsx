@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import BASE_URL from "../config.js";
+import BASE_URL from "../config";
 
 export default function SignIn() {
   const [authUser, setAuthUser] = useAuth();
