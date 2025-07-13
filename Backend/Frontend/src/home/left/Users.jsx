@@ -24,7 +24,7 @@ function Users() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto p-2 scrollbar-hide">
         <div className="space-y-1">
           {allUsers.map((user, index) => (
             <User key={user._id || index} user={user} />

@@ -1,3 +1,4 @@
+import LogOut from "./LogOut"
 import Search from "./Search"
 import Users from "./Users"
 
@@ -5,9 +6,9 @@ function Left() {
   return (
     <div className="w-80 bg-slate-900 border-r border-slate-700 flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-slate-700">
+      <div className="p-4 border-b border-slate-700/50">
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-600 rounded-lg">
+          <div className="p-2 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg shadow-lg">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -26,6 +27,9 @@ function Left() {
       <div className="flex-1 overflow-hidden">
         <Users />
       </div>
+
+      {/* Logout positioned at bottom */}
+      <LogOut />
     </div>
   )
 }
