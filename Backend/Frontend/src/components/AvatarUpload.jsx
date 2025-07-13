@@ -1,24 +1,41 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Camera, User } from "lucide-react"
-import { useTheme } from "../context/ThemeContext"
+import { useTheme } from "../context/ThemeContext" // Assuming this path is correct
 
-function AvatarUpload({ onAvatarChange, currentAvatar }) {
-  const [preview, setPreview] = useState(currentAvatar || null)
+export default function AvatarUpload({ onAvatarChange, currentAvatarFile }) {
+  const [preview, setPreview] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
   const { theme } = useTheme()
 
-  const handleFileSelect = (file) => {
-    if (file && file.type.startsWith("image/")) {
+  // Effect to update preview when currentAvatarFile changes
+  useEffect(() => {
+    if (currentAvatarFile instanceof File) {
       const reader = new FileReader()
       reader.onload = (e) => {
-        const result = e.target.result
-        setPreview(result)
-        onAvatarChange(result)
+        setPreview(e.target?.result)
+      }
+      reader.readAsDataURL(currentAvatarFile)
+    } else {
+      setPreview(null) // Clear preview if no file or invalid
+    }
+  }, [currentAvatarFile])
+
+  const handleFileProcess = (file) => {
+    if (file && file.type.startsWith("image/")) {
+      // Update internal preview
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setPreview(e.target?.result)
       }
       reader.readAsDataURL(file)
+      // Notify parent component with the File object
+      onAvatarChange(file)
+    } else {
+      setPreview(null)
+      onAvatarChange(null) // Clear avatar if invalid file
     }
   }
 
@@ -26,7 +43,7 @@ function AvatarUpload({ onAvatarChange, currentAvatar }) {
     e.preventDefault()
     setIsDragging(false)
     const file = e.dataTransfer.files[0]
-    handleFileSelect(file)
+    handleFileProcess(file)
   }
 
   const handleDragOver = (e) => {
@@ -43,9 +60,9 @@ function AvatarUpload({ onAvatarChange, currentAvatar }) {
     fileInputRef.current?.click()
   }
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    handleFileSelect(file)
+  const handleFileInputChange = (e) => {
+    const file = e.target.files?.[0] || null
+    handleFileProcess(file)
   }
 
   return (
@@ -96,7 +113,7 @@ function AvatarUpload({ onAvatarChange, currentAvatar }) {
           <Camera className="w-3 h-3 text-white" />
         </div>
       </div>
-      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInputChange} className="hidden" />
       <p
         className={`
         text-sm text-center transition-colors duration-300
@@ -108,5 +125,3 @@ function AvatarUpload({ onAvatarChange, currentAvatar }) {
     </div>
   )
 }
-
-export default AvatarUpload

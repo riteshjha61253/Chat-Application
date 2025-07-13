@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   confirmPassword: {
     type: String,
   },
+  avatar:   { type: String },
 },{timestamps: true}); //timestamps creates createdAt and updatedAt fields automatically
 
 const User = mongoose.model("User", userSchema);

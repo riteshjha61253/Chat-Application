@@ -3,6 +3,7 @@
 import useConversation from "../../zutstand/userConveration.js";
 import { useSocketContext } from "../../context/SocketContext.jsx";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import BASE_URL from "../../config.js";
 
 function User({ user }) {
   const { socket, onlineUser } = useSocketContext();
@@ -39,38 +40,36 @@ function User({ user }) {
     >
       <div className="relative">
         <div
-          className={`
-          w-12 h-12 rounded-full overflow-hidden flex items-center justify-center transition-all duration-300
-          ${
-            theme === "light"
-              ? "bg-gradient-to-br from-blue-100 to-purple-100"
-              : "bg-slate-700"
-          }
-        `}
-        >
-          <img
-            alt={user.fullName}
-            src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=280&h=350&q=80"
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.style.display = "none";
-              e.target.nextSibling.style.display = "flex";
-            }}
-          />
-          <div
-            className={`
-              w-full h-full text-sm font-medium flex items-center justify-center
-              ${
-                theme === "light"
-                  ? "bg-gradient-to-br from-blue-400 to-purple-500 text-white"
-                  : "bg-slate-700 text-white"
-              }
-            `}
-            style={{ display: "none" }}
-          >
-            {getInitials(user.fullName)}
-          </div>
-        </div>
+  className={`
+    w-12 h-12 rounded-full overflow-hidden flex items-center justify-center transition-all duration-300
+    ${theme === "light" ? "bg-gradient-to-br from-blue-100 to-purple-100" : "bg-slate-700"}
+  `}
+>
+  {user.avatar?.trim() ? (
+    <img
+      alt={user.fullName}
+      src={`${BASE_URL}/uploads/${user.avatar}`}
+      className="w-full h-full object-cover"
+      onError={(e) => {
+        e.target.style.display = "none";
+        e.target.nextSibling.style.display = "flex";
+      }}
+    />
+  ) : null}
+
+  {!user.avatar?.trim() && (
+    <div
+      className={`
+        w-full h-full text-sm font-medium flex items-center justify-center
+        ${theme === "light" ? "bg-gradient-to-br from-blue-400 to-purple-500 text-white" : "bg-slate-700 text-white"}
+      `}
+    >
+      {getInitials(user.fullName || "")}
+    </div>
+  )}
+</div>
+
+
         {isOnline && (
           <div
             className={`

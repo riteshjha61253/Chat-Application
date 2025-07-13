@@ -24,44 +24,52 @@ export default function SignIn() {
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const userInfo = {
-      email: formData.email,
-      password: formData.password,
-    }
+  // SignIn.jsx
+// SignIn.jsx
+// SignIn.jsx
+// SignIn.jsx
+// SignIn.jsx
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const userInfo = {
+    email: formData.email,
+    password: formData.password,
+  };
 
-    fetch(`${BASE_URL}/user/signIn`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(userInfo),
+  fetch(`${BASE_URL}/user/signIn`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Rely on server-set cookie
+    body: JSON.stringify(userInfo),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return res.json();
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok")
-        }
-        return res.json()
-      })
-      .then((data) => {
-        console.log("Server Response:", data)
-        alert("SignIn successful!")
-        Cookies.set("jwt", JSON.stringify(data), { expires: 7 })
-        setAuthUser(data)
-        setFormData({
-          email: "",
-          password: "",
-        })
-        localStorage.setItem("RealChat", data.user)
-      })
-      .catch((error) => {
-        console.error("Error during signup:", error)
-        alert("Something went wrong. Please try again.")
-      })
-  }
-
+    .then((data) => {
+      console.log("Server Response:", data);
+      if (!data.token) {
+        throw new Error("Authentication token missing from server response");
+      }
+      alert("SignIn successful!");
+      // No Cookies.set needed; rely on server-set cookie
+      console.log("Server should have set cookie; check network tab");
+      localStorage.setItem("RealChat", JSON.stringify(data.user));
+      setAuthUser(data);
+      setFormData({
+        email: "",
+        password: "",
+      });
+    })
+    .catch((error) => {
+      console.error("Error during signin:", error);
+      alert("Something went wrong. Please try again.");
+    });
+};
   return (
     <div
       className={`

@@ -1,19 +1,22 @@
-"use client"
+"use client";
 
-import User from "./User"
-import useGetAllUsers from "../../context/useGetAllUsers"
-import { useTheme } from "../../context/ThemeContext"
+import User from "./User";
+import useGetAllUsers from "../../context/useGetAllUsers";
+import { useTheme } from "../../context/ThemeContext";
 
 function Users() {
-  const [allUsers, loading] = useGetAllUsers()
-  const { theme } = useTheme()
+  const [allUsers, loading] = useGetAllUsers();
+  const { theme } = useTheme();
 
   if (loading) {
     return (
       <div className="p-2">
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="flex items-center gap-3 p-3 rounded-lg animate-pulse">
+            <div
+              key={i}
+              className="flex items-center gap-3 p-3 rounded-lg animate-pulse"
+            >
               <div
                 className={`
                 w-12 h-12 rounded-full
@@ -38,7 +41,7 @@ function Users() {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -63,7 +66,7 @@ function Users() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Users
+export default Users;

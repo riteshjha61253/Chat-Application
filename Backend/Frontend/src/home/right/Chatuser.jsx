@@ -4,6 +4,7 @@ import useConversation from "../../zutstand/userConveration"
 import { useSocketContext } from "../../context/SocketContext"
 import { useTheme } from "../../context/ThemeContext"
 import { Phone, Video, MoreVertical } from "lucide-react"
+import BASE_URL from "../../config"
 
 function Chatuser() {
   const { selectedConversation } = useConversation()
@@ -40,24 +41,28 @@ function Chatuser() {
             ${theme === "light" ? "bg-gradient-to-br from-blue-100 to-purple-100" : "bg-slate-700"}
           `}
           >
+            {selectedConversation.avatar?.trim() ? (
             <img
               alt={selectedConversation?.fullName}
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=280&h=350&q=80"
+              src={`${BASE_URL}/uploads/${selectedConversation.avatar}`}
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.target.style.display = "none"
                 e.target.nextSibling.style.display = "flex"
               }}
             />
+            ):null}
+            {!selectedConversation.avatar?.trim()&&(
             <div
               className={`
                 w-full h-full text-sm font-medium flex items-center justify-center
                 ${theme === "light" ? "bg-gradient-to-br from-blue-400 to-purple-500 text-white" : "bg-slate-700 text-white"}
               `}
-              style={{ display: "none" }}
+              // style={{ display: "none" }}
             >
-              {getInitials(selectedConversation?.fullName)}
+              {getInitials(selectedConversation.fullName||"")}
             </div>
+            )}
           </div>
           {isOnline && (
             <div

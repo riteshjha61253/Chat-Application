@@ -7,6 +7,8 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import messageRoute from "./routes/message.route.js";
 import { app, server } from "./socketIo/server.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 dotenv.config();
 const Port = process.env.PORT || 4000;
@@ -17,24 +19,26 @@ app.use(cookieParser());
 
 // allow both deployed and local frontend
 const allowedOrigins = [
-  "http://localhost:5173",                     // for local frontend
-  "https://chat-application-j0m9.onrender.com" // for deployed frontend
+  "http://localhost:5173", // for local frontend
+  "https://chat-application-j0m9.onrender.com", // for deployed frontend
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-}));
-
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://chat-application-j0m9.onrender.com"],
+    // origin: "http://localhost:5173", // Match frontend origin
+    credentials: true, // Allow cookies
+    exposedHeaders: ["Set-Cookie", "Authorization"],
+  })
+);
 
 app.use("/user", userRoute);
 app.use("/user/message", messageRoute);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -------deployment----
 if (process.env.NODE_ENV === "production") {

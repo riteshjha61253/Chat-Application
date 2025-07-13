@@ -1,5 +1,5 @@
+// useGetAllUsers.js
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import BASE_URL from "../config";
 
 function useGetAllUsers() {
@@ -10,19 +10,29 @@ function useGetAllUsers() {
     const getUsers = async () => {
       setLoading(true);
       try {
-        const token = Cookies.get("jwt");
         const response = await fetch(`${BASE_URL}/user/allUsers`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            // No need to set Authorization manually; cookie handles it
           },
-          credentials: "include",
+          credentials: "include", // Send the HttpOnly cookie
         });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch users");
+        }
+
         const data = await response.json();
-        setAllUsers(data);
+        if (Array.isArray(data)) {
+          setAllUsers(data);
+        } else {
+          console.error("Unexpected data format, expected array, got:", data);
+          setAllUsers([]);
+        }
       } catch (error) {
-        console.log("Error fetching users:", error);
+        console.error("Error fetching users:", error.message);
+        setAllUsers([]);
       } finally {
         setLoading(false);
       }
